@@ -19,11 +19,12 @@ HELM_REPO_NAME="$3"
 
 if [ -f /etc/docker/certs.d/${HARBOR_URL}/ca.crt ]; then
   if [ $# -eq 3 ]; then
-    sudo  helm  repo  add  \
-          --ca-file  /etc/docker/certs.d/${HARBOR_URL}/ca.crt   \
-          --username=${HARBOR_USERID}  --password=${HARBOR_USERPW}  \
-          ${HELM_REPO_NAME}  https://${HARBOR_URL}/chartrepo/${HELM_REPO_NAME}
-          echo "  >>> ${HELM_REPO_NAME} : helm repository add success"
+    echo ">>> Login User = $(whoami)"
+    helm  repo  add  \
+      --ca-file  /etc/docker/certs.d/${HARBOR_URL}/ca.crt   \
+      --username=${HARBOR_USERID}  --password=${HARBOR_USERPW}  \
+      ${HELM_REPO_NAME}  https://${HARBOR_URL}/chartrepo/${HELM_REPO_NAME}
+      echo "  >>> ${HELM_REPO_NAME} : helm repository add success"
   else
     echo;echo ">>> usage: $0 <harbor user id>  <harbor user pw>  <add helm chart name>";echo
   fi
