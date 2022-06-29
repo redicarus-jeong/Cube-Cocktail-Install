@@ -4,49 +4,30 @@
 ### Modified Date : 2022-06-16
 ### Author : redicarus.jeong
 
-CurrentPath=$(pwd)
-ScriptHomeDir=${CurrentPatch}/script/Private
-RepositoryHostname="repoharbornfs"
-HarborHostname="registry"
-RepoPort=3777
+CURRENT_PATH=$(pwd)
+HARBOR_HOSTNAME="regi"
 
-IFName="enp0s8"
-IFIPClass=$(ip addr show dev ${IFName} scope global |grep inet|awk '{print $2}'|cut -d'.' -f1,2,3)
+IF_NAME="enp0s8"
+IF_IP_CLASS=$(ip addr show dev ${IF_NAME} scope global |grep inet|awk '{print $2}'|cut -d'.' -f1,2,3)
 
 ### Incloud ENV File ###
-HarborUserID="acloud"
-HarborUserPW="@c0rnWks@2"
-HarborRepoList=("cube" "cocktail" "cocktail-addon")
-HarborVersion="1.10.6"
-CubeVersion="1.21"
-MainDir="/APP"
-CubeWork="${MainDir}/acorn"
-CubeDir="${CubeWork}/cube"
-CubeData="${CubeWork}/data"
-CubeTmp="${MainDir}/acornsoft"
-CubeExec="${MainDir}/cocktail"
-AWSServer="disable"
+HARBOR_USERID="$1"
+HARBOR_USERPW="$2"
 
-HarborURL=$(grep ${HarborHostname} /etc/hosts | grep ${IFIPClass} | awk 'NR==1 {print $1}')
-HarborPingCount=$(ping -c 3 ${HarborURL} | grep received |cut -d',' -f2|awk '{print $1}' | sed 's/ //g')
+HARBOR_URL=$(grep ${HARBOR_HOSTNAME} /etc/hosts | grep ${IF_IP_CLASS} | awk 'NR==1 {print $1}')
+HELM_REPO_NAME="$3"
 
-
-
-HELMREPONAME=$1
-
-if [ -f /etc/docker/certs.d/${HarborURL}/ca.crt ]; then
-    for RepoName in  ${HarborRepoList[@]}
-        do
-            sudo  helm  repo  add  \
-                       --ca-file  /etc/docker/certs.d/${HarborURL}/ca.crt   \
-                       --username=${HarborUserID}  --password=${HarborUserPW}  \
-                       ${RepoName}  https://${HarborURL}/chartrepo/${RepoName}
-            echo "  >>> ${RepoName} : helm repository add success"
-            (( helmRepoCount = helmRepoCount + 1 ))
-    done
+if [ -f /etc/docker/certs.d/${HARBOR_URL}/ca.crt ]; then
+  if [ $# -eq 3 ]; then
+    sudo  helm  repo  add  \
+          --ca-file  /etc/docker/certs.d/${HARBOR_URL}/ca.crt   \
+          --username=${HARBOR_USERID}  --password=${HARBOR_USERPW}  \
+          ${HELM_REPO_NAME}  https://${HARBOR_URL}/chartrepo/${HELM_REPO_NAME}
+          echo "  >>> ${HELM_REPO_NAME} : helm repository add success"
+  else
+    echo;echo ">>> usage: $0 <harbor user id>  <harbor user pw>  <add helm chart name>";echo
+  fi
 else
-    echo "  >>> helm repository add failed"
-    echo "  >>> Not Found Certificate file(=/etc/docker/certs.d/${HarborURL}/ca.crt)"
-    exit 1
+  echo "  >>> helm repository add failed"
+  echo "  >>> Not Found Certificate file(=/etc/docker/certs.d/${HARBOR_URL}/ca.crt)"
 fi
-
