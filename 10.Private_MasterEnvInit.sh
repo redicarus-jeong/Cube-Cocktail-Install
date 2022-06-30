@@ -1,8 +1,10 @@
-#!/usr/bin/env bashHARBOR_HOSTNAME
+#!/usr/bin/env bash
 
 ### this script is Preinstall Kubernetes Masters
 ### date : 2022-06-16
 ### author : redicarus.jeong
+### description
+### 2022-06-30 : Change environment variable names to uppercase
 
 if [ ! -d ${CUBE_WORK}/cube/temp ]; then 
   sudo mkdir -p ${CUBE_WORK}/cube/temp
