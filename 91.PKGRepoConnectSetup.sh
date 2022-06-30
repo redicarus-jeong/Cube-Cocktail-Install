@@ -39,6 +39,10 @@ EOF
 }
 
 RepositoryIP=$(grep ${RepositoryHostname} /etc/hosts | awk 'NR==1 {print $1}')
+if [ -z ${RepositoryIP} ]; then
+    echo ">>>> Not Found hostname in /etc/hosts. Change RepositoryHostname this script"
+    exit 1
+fi
 RepoPingCount=$(ping -c 3 ${RepositoryIP} | grep received |cut -d',' -f2|awk '{print $1}' | sed 's/ //g')
 if [  $RepoPingCount -ne 3 ]; then
     echo ">>>> CentOS-7.9 Private RPM Repository is not running. Checking PKG Repo.Server IP=${RepositoryIP}"
