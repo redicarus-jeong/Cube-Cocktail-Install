@@ -49,7 +49,7 @@ done
 
 
 ##### 2. ETCD & Helm
-WGET_BINARY=("helm" "sshpass" "etcd")
+WGET_BINARY=("helm" "sshpass" "etcd" "etcdctl")
 echo "====> 2. wget etcd & Helm binary from PKG Repository"
 REPOSITORY_IP=$(grep ${REPOSITORY_HOSTNAME} /etc/hosts | awk 'NR==1 {print $1}')
 REPOSITORY_PING_COUNT=$(ping -c 3 ${REPOSITORY_IP} | grep received |cut -d',' -f2|awk '{print $1}' | sed 's/ //g')
@@ -58,12 +58,14 @@ if [  $REPOSITORY_PING_COUNT -ne 3 ]; then
     exit 1
 else
     echo " >>>> wget ${WGET_BINARY[0]} "
+    ### Only Master01 
     if [ ! -f ${CUBE_TEMP}/cube/binary/${WGET_BINARY[0]} ]; then
 	    sudo wget http://${REPOSITORY_IP}:${REPO_PORT}/binary/${WGET_BINARY[0]}  -P  ${CUBE_TEMP}/cube/binary/
         sudo chmod ug+x ${CUBE_TEMP}/cube/binary/${WGET_BINARY[0]}
         sudo cp -pf ${CUBE_TEMP}/cube/binary/${WGET_BINARY[0]}  /usr/local/bin/
     fi
 
+    ### All Master & Node
     echo " >>>> wget ${WGET_BINARY[1]} "
     if [ ! -f ${CUBE_TEMP}/cube/binary/${WGET_BINARY[1]} ]; then
 	    sudo wget http://${REPOSITORY_IP}:${REPO_PORT}/binary/${WGET_BINARY[1]}  -P  ${CUBE_TEMP}/cube/binary/
@@ -71,14 +73,21 @@ else
         sudo cp -pf ${CUBE_TEMP}/cube/binary/${WGET_BINARY[1]}  /usr/local/bin/
     fi
     
+    ### All Master
     echo " >>>> wget ${WGET_BINARY[2]} "
     if [ ! -f ${CUBE_TEMP}/cube/etcd/${WGET_BINARY[2]} ]; then
-        echo " >>>> wget ${WGET_BINARY[0]} failed"
         sudo wget http://${REPOSITORY_IP}:${REPO_PORT}/etcd/${WGET_BINARY[2]}  -P  ${CUBE_TEMP}/cube/etcd/
 		sudo chmod ug+x ${CUBE_TEMP}/cube/etcd/${WGET_BINARY[2]}
         sudo cp -pf ${CUBE_TEMP}/cube/etcd/${WGET_BINARY[2]}  /usr/local/bin/
     fi
 
+    ### All Master
+    echo " >>>> wget ${WGET_BINARY[3]} "
+    if [ ! -f ${CUBE_TEMP}/cube/etcd/${WGET_BINARY[3]} ]; then
+        sudo wget http://${REPOSITORY_IP}:${REPO_PORT}/etcd/${WGET_BINARY[3]}  -P  ${CUBE_TEMP}/cube/etcd/
+		sudo chmod ug+x ${CUBE_TEMP}/cube/etcd/${WGET_BINARY[3]}
+        sudo cp -pf ${CUBE_TEMP}/cube/etcd/${WGET_BINARY[3]}  /usr/local/bin/
+    fi
 fi    
 
 
@@ -110,7 +119,7 @@ done
 
 
 ##### 5. Certificate ca.crt copy in Harbor Registry  
-echo "===+> 5. Certificate ca.crt copy in Harbor Registry "
+echo "====> 5. Certificate ca.crt copy in Harbor Registry "
 HARBOR_URL=$(grep ${HARBOR_HOSTNAME} /etc/hosts | awk 'NR==1 {print $2}')
 HARBOR_PING_COUNT=$(ping -c 3 ${HARBOR_URL} | grep received |cut -d',' -f2|awk '{print $1}' | sed 's/ //g')
 if [  $HARBOR_PING_COUNT -ne 3 ]; then
