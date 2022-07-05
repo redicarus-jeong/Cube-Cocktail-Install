@@ -19,17 +19,6 @@ if [ ! -d ${CERT_DIR}/etcd ]; then
   sudo mkdir -p ${CERT_DIR}/etcd
 fi
 
-
-
-########################
-### Incloud File Var ###
-########################
-### alt_names_cluster ADD IP ###
-CLUSTER_IP=${CUBE_ENV_CLUSTER_IP}
-PROXY_IP=${CUBE_ENV_PROXY_IP}
-EXTERNAL_DNS=${CUBE_ENV_EXTERNAL_DNS}
-EXTERNAL_DNS_LENGTH=${#EXTERNAL_DNS[@]}
-
 ##### 11-2. Create openssl.conf Create file #####
 echo "====> 11-2. Create openssl.conf Create file"
 cat << EOF | sudo tee ${CERT_DIR}/common-openssl.conf
