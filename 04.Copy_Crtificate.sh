@@ -18,18 +18,18 @@ if [ ${#NODE_NODE_IP[@]} -ge 1 ]; then
   for NODEIP in ${NODE_NODE_IP[@]}
     do
         ##### Create Certificate Directorey in Node Host #####
-        sshpass -p ${COCKTAIL_PASS} ssh ${SSH_OPTION} ${COCKTAIL_USER}@${NODEIP} "sudo mkdir -p ${CUBE_TMP}/cube/certificate/etcd/"
+        sshpass -p ${COCKTAIL_PASS} ssh ${SSH_OPTION} ${COCKTAIL_USER}@${NODEIP} "sudo mkdir -p ${CUBE_TEMP}/cube/certificate/etcd/"
         
         ##### Kubernetes CA Copy #####
-        sshpass -p ${COCKTAIL_PASS} sudo scp ${SSH_OPTION} ${CUBE_TMP}/cube/certificate/ca.* ${COCKTAIL_USER}@${NODEIP}:${CUBE_TMP}/cube/certificate/
+        sshpass -p ${COCKTAIL_PASS} sudo scp ${SSH_OPTION} ${CUBE_TEMP}/cube/certificate/ca.* ${COCKTAIL_USER}@${NODEIP}:${CUBE_TEMP}/cube/certificate/
               
         ### ETCD CA Copy ###
-        sshpass -p ${COCKTAIL_PASS} sudo scp ${SSH_OPTION} ${CUBE_TMP}/cube/certificate/etcd/ca.* ${COCKTAIL_USER}@${NODEIP}:${CUBE_TMP}/cube/certificate/etcd
+        sshpass -p ${COCKTAIL_PASS} sudo scp ${SSH_OPTION} ${CUBE_TEMP}/cube/certificate/etcd/ca.* ${COCKTAIL_USER}@${NODEIP}:${CUBE_TEMP}/cube/certificate/etcd
         
         ### Front Proxy CA Copy ###
-        sshpass -p ${COCKTAIL_PASS} sudo scp ${SSH_OPTION} ${CUBE_TMP}/cube/certificate/front-proxy-ca.* ${COCKTAIL_USER}@${NODEIP}:${CUBE_TMP}/cube/certificate/
+        sshpass -p ${COCKTAIL_PASS} sudo scp ${SSH_OPTION} ${CUBE_TEMP}/cube/certificate/front-proxy-ca.* ${COCKTAIL_USER}@${NODEIP}:${CUBE_TEMP}/cube/certificate/
         
         ### Service Account CA Copy ###
-        sshpass -p ${COCKTAIL_PASS} sudo scp ${SSH_OPTION} ${CUBE_TMP}/cube/certificate/sa.* ${COCKTAIL_USER}@${NODEIP}:${CUBE_TMP}/cube/certificate/
+        sshpass -p ${COCKTAIL_PASS} sudo scp ${SSH_OPTION} ${CUBE_TEMP}/cube/certificate/sa.* ${COCKTAIL_USER}@${NODEIP}:${CUBE_TEMP}/cube/certificate/
   done
 fi
