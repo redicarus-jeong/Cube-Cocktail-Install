@@ -66,7 +66,7 @@ fi
 echo "IP.1 = 127.0.0.1" | sudo tee --append ${CERT_DIR}/common-openssl.conf
 echo "IP.2 = ${CUBE_ENV_CLUSTER_IP}" | sudo tee --append ${CERT_DIR}/common-openssl.conf
 echo "IP.3 = ${CUBE_ENV_PROXY_IP}" | sudo tee --append ${CERT_DIR}/common-openssl.conf
-echo "IP.4 = ${IFIPAddress}" | sudo tee --append ${CERT_DIR}/common-openssl.conf
+echo "IP.4 = ${IF_IPADDRESS}" | sudo tee --append ${CERT_DIR}/common-openssl.conf
 
 ##### 11-4. ETCD openssl.conf Create File #####
 echo "====> 11-4. ETCD openssl.conf Create File"
@@ -93,7 +93,7 @@ subjectAltName = @alt_names_etcd
 [ alt_names_etcd ]
 DNS.1 = ${HOSTNAME}
 IP.1 = 127.0.0.1
-IP.2 = ${IFIPAddress}
+IP.2 = ${IF_IPADDRESS}
 EOF
 
 ##### 11-5. metrics-server openssl.conf Create File #####

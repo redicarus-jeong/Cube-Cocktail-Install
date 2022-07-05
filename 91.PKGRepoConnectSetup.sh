@@ -6,7 +6,7 @@
 
 export CurrentPath=$(pwd)
 export IFName="enp0s8"
-export IFIPAddress=$(ip addr show dev ${IFName} scope global |grep inet|awk '{print $2}'|cut -d'/' -f1)
+export IF_IPADDRESS=$(ip addr show dev ${IFName} scope global |grep inet|awk '{print $2}'|cut -d'/' -f1)
 export RepositoryHostname="repository"
 export RepoPort=3777
 

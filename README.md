@@ -5,7 +5,7 @@
 ### 4. cube binary file = cube_bin-etcd.tgz.gz
 
 ## Cube Install Flow
-### Run 01_master_env_init.sh
+### I. Run 01_master_env_init.sh in Master01
 ### script call list in 01_master_env_init.sh
     1. sh ./${OS_TYPE}/00_unzip_cubefile.sh
     2. sh ./${OS_TYPE}/01_create_openssl.sh
@@ -20,3 +20,6 @@
 
     7. sh ./${OS_TYPE}/06_etcd_bootstrap.sh
     * OS_TYPE 별 실행되는 것이 조금 다르다...!!
+    
+### II. Run 04.Copy_Certificate.sh 
+### III. Run 01_master_env_init.sh in Master02, Master03

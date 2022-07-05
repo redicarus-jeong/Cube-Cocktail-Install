@@ -8,7 +8,7 @@
 
 CurrentPath=$(pwd)
 IFName="enp0s8"
-IFIPAddress=$(ip addr show dev ${IFName} scope global |grep inet|awk '{print $2}'|cut -d'/' -f1)
+IF_IPADDRESS=$(ip addr show dev ${IFName} scope global |grep inet|awk '{print $2}'|cut -d'/' -f1)
 
 ### Veriable define
 #RepositoryHostname="repository"
@@ -280,7 +280,7 @@ subjectAltName = @alt_names_registry
 DNS.1 = localhost
 DNS.2 = ${HOSTNAME}
 IP.1 = 127.0.0.1
-IP.2 = ${IFIPAddress}
+IP.2 = ${IF_IPADDRESS}
 EOF
 
 
@@ -367,12 +367,12 @@ echo "===> 10. harbor config yaml file modify"
 echo "#######################################################################################################"
 ##### 10-1.hostname Change #####
 echo "---> 10-1.hostname Change"
-sudo sed -i 's|^hostname:.*|hostname: '${IFIPAddress}'|g' ${HarborInstallConfFile}
+sudo sed -i 's|^hostname:.*|hostname: '${IF_IPADDRESS}'|g' ${HarborInstallConfFile}
 HarborConfHostnameIP=$(grep '^hostname:' ${HarborInstallConfFile} | cut -d':' -f2|tr -d ' ')
-if [ "${IFIPAddress}" = "${HarborConfHostnameIP}" ];then
-    echo ">>>> Change Success hostname: ${IFIPAddress}"
+if [ "${IF_IPADDRESS}" = "${HarborConfHostnameIP}" ];then
+    echo ">>>> Change Success hostname: ${IF_IPADDRESS}"
 else
-    echo ">>>> Change Failed hostname: ${IFIPAddress}"
+    echo ">>>> Change Failed hostname: ${IF_IPADDRESS}"
     exit 1
 fi
 
@@ -468,8 +468,8 @@ for dbjob in drop create
 done
 
 
-### 15. Harbor database restore copy & execute and registry https URL Change(=IFIPAddress)
-echo "===> 15. Harbor database restore copy & execute and registry https URL Change(=IFIPAddress)"
+### 15. Harbor database restore copy & execute and registry https URL Change(=IF_IPADDRESS)
+echo "===> 15. Harbor database restore copy & execute and registry https URL Change(=IF_IPADDRESS)"
 echo "#######################################################################################################"
 HarborDatabaseFileList=("registry.back" "postgres.back" "notarysigner.back" "notaryserver.back")
 ##### 15-1. Harbor database restore(cp)
@@ -487,10 +487,10 @@ for DataFile in ${HarborDatabaseFileList[@]}
         echo ">>>> harbor database ${BaseDBName} execute"
         sudo docker exec harbor-db sh -c "psql -U postgres ${BaseDBName} < /tmp/${DataFile}"
 done
-##### 15-3. Harbor registry https URL Change(=IFIPAddress)
-### sudo docker exec harbor-db sh -c "psql -U postgres registry -c \"update properties set v='https://${IFIPAddress}' where k='ext_endpoint'\""
-echo "---> 15-3. Harbor registry https URL Change(=${IFIPAddress})"
-sudo docker exec harbor-db sh -c "psql -U postgres registry -c \"update properties set v='https://${IFIPAddress}' where k='ext_endpoint'\""
+##### 15-3. Harbor registry https URL Change(=IF_IPADDRESS)
+### sudo docker exec harbor-db sh -c "psql -U postgres registry -c \"update properties set v='https://${IF_IPADDRESS}' where k='ext_endpoint'\""
+echo "---> 15-3. Harbor registry https URL Change(=${IF_IPADDRESS})"
+sudo docker exec harbor-db sh -c "psql -U postgres registry -c \"update properties set v='https://${IF_IPADDRESS}' where k='ext_endpoint'\""
 
 
 ### 16. Database Task harbor-db container Docker stop, rm
@@ -567,7 +567,7 @@ if [ -d ${HarborDataStoreDir}/registry/docker ]; then
 fi
 
 ### Harbor install and setup Complete
-echo "===> Harbor install and setup Complete. connecting to https://${IFIPAddress} use WEB Browser(chrome) "
+echo "===> Harbor install and setup Complete. connecting to https://${IF_IPADDRESS} use WEB Browser(chrome) "
 echo "#######################################################################################################"
 
 ### DockerUser add to docker-group
