@@ -3,7 +3,7 @@
 ### Incloud ENV File ###
 source ./cube_env
 
-if [[ ! -d ${CUBE_WORK} ]]; then # Does not exist the Dir
+if [ ! -d ${CUBE_WORK} ]; then # Does not exist the Dir
   echo "Make the Directory"
   sudo mkdir -p ${CUBE_WORK}
 fi

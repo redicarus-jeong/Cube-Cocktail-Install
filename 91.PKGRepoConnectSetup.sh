@@ -4,11 +4,11 @@
 ### Modified Date : 2022-06-13
 ### Author : redicarus.jeong
 
-export CurrentPath=$(pwd)
-export IFName="enp0s3"
-export IF_IPADDRESS=$(ip addr show dev ${IFName} scope global |grep inet|awk '{print $2}'|cut -d'/' -f1)
-export RepositoryHostname="Repo"
-export RepoPort=3777
+CurrentPath=$(pwd)
+IFName="enp0s3"
+IF_IPADDRESS=$(ip addr show dev ${IFName} scope global |grep inet|awk '{print $2}'|cut -d'/' -f1)
+RepositoryHostname="Repo"
+RepoPort=3777
 
 ### Connect to Local Private PKG Repository on CentOS-7.9
 echo "#############################################################"
