@@ -68,7 +68,7 @@ fi
 
 
 # Value to be applied to "podSubnet" of kubeadm - Subnet value to be used in Pod's Network, also applied to "CALICO_IPV4POOL_CIDR" setting when Calico is installed.
-POD_SUBNET="10.200.0.0/16"
+POD_SUBNET="10.240.0.0/16"
 
 # Value to be applied to "serverSubnet" in kubeadm - Used by Cluster Subnet in Kubernetes
 SERVICE_SUBNET="10.100.0.0/16"
@@ -82,11 +82,11 @@ GPU_NODE=disable
 ### Define whether or not to use Harbor in a private environment (to be removed). "enable" or "disable"
 PRIVATE_REPO=enable
 
-# The names of master in /etc/hosts. ( format = array )
-MASTER_HOSTNAME=("Master01")         # ex) MASTER_HOSTNAME=("Master01" "Master02" "Master03")
-# The names of node in /etc/hosts. ( format = array )
-NODE_HOSTNAME=("Node01")         # ex) NODE_HOSTNAME=("Node01" "Node02" "Node03")
-NODE_NAME_PREFIX="Node"
+# The names of master in /etc/hosts. name is lowcase ( format = array )
+MASTER_HOSTNAME=("master01")         # ex) MASTER_HOSTNAME=("master01" "master02" "master03")
+# The names of node in /etc/hosts.   ( format = array )
+NODE_HOSTNAME=("noe01")             # ex) NODE_HOSTNAME=("node01" "node02" "node03")
+NODE_NAME_PREFIX="node"
 
 
 #########################################################################################################
