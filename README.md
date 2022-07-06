@@ -1,3 +1,5 @@
+# git URL : https://github.com/redicarus-jeong/cube-cocktail-install.git
+
 # Cube and Cocktail PKG Install & setup
 ### 1. OS Repository File = CentOS-7.9_PrivateRepo.tar.gz
 ### 2. Harbor data File = cube_harbor.tgz

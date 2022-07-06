@@ -1,0 +1,29 @@
+storageClass:
+  create: true
+  isDefault: true
+  name: nfs-csi
+  parameters:
+    server: "192.168.1.237"
+    share: "/nfs-share"
+  mountOptions:
+  - hard
+  - nolock
+  #- no_root_squash
+  #- nfsvers=3
+  - nfsvers=4.1
+  addintionalLabels:
+    acornsoft.io/provisioner-type: NFS_CSI
+    ### total-capacity is storage disk total capacity
+    acornsoft.io/total-capacity: "1024"
+    acornsoft.io/type: NETWORK
+    acornsoft.io/volume-type: PERSISTENT_VOLUME
+### kubeletDataDir 
+kubeletDataDir: /var/lib/kubelet
+tolerations:
+  - effect: NoSchedule
+    operator: Exists
+  - key: CriticalAddonsOnly
+    operator: Exists
+  - effect: NoExecute
+    operator: Exists
+imageBaseUrl: "regi.acloud.run"

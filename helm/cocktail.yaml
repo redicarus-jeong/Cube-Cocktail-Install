@@ -1,0 +1,248 @@
+global:
+  cocktail_dashboard_type: "http"
+  cocktail_dashboard_url: 192.168.0.100
+
+  cocktail_dashboard_serviceType: NodePort
+  #cocktail_dashboard_serviceType: clusterIp
+  cocktail_dashboard_nodePort: 30000
+  cocktail_addon_namespace: cocktail-addon
+
+  registry:
+    url: regi.acloud.run
+    ## base64 encoding 해야 함
+    ca_crt: ""
+    addon_chart_project_name: cocktail-addon
+
+    REGISTRY_USER: "acloud"
+    REGISTRY_PASSWORD: "@c0rnWks@2"
+
+    ## Registry Server (Harbor)의 Chart Repository 사용자 정보
+    addon_chart_repo_user: "cocktail-addon"
+    addon_chart_repo_password: "C0ckt@1l"
+
+  storageClass: "nfs-csi"
+  storageClassRWX: "nfs-csi"
+
+  ## storage_type: ["nas", "nfs", "efs" , "azurefile"] required default: nfs
+  storage_type: nfs
+  imagePullSecrets: []
+
+  audit:
+    enabled: false
+
+  secret:
+    ## DB Root Password
+    DB_ROOT_PASSWORD: PartnerRoot123
+    ## Cocktail Database (api-cmdb/acloud) 사용자 계정 정보
+    COCKTAIL_DB_USER: partner
+    COCKTAIL_DB_PASSWORD: PartnerPass123
+
+    #Nats 정보
+    NATS_USERNAME: natsusername
+    NATS_PASSWORD: natspassword
+
+    AKS_CLIENT_ID: "AKS_CLIENT_ID"
+    AKS_CLIENT_SECRET: "AKS_CLIENT_SECRET"
+    GKE_CLIENT_ID: "GKE_CLIENT_ID"
+    GKE_CLIENT_SECRET: "GKE_CLIENT_SECRET"
+
+    DASHBOARD_SESSION_PASSWORD: "@c0rn$0fT"
+
+  defaultImageBaseUrl: "regi.acloud.run"
+
+  defaultTolerations: []
+  #- key: "node-type"
+  #  operator: "Equal"
+  #  value: "cocktail"
+  #  effect: "NoSchedule"
+
+  defaultNodeSelector: {}
+  #  node-role.kubernetes.io/master: ""
+
+  defaultAffinity: {}
+
+  buildServer:
+    namespace:
+      create: true
+      name: build-server
+    secret:
+      create: true
+      name: build-server-secret
+
+  openshift:
+    buildServerServiceAccountName: privileged
+    serviceAccountName: anyuid
+    enabled: false
+    route:
+      enabled: false
+      tls:
+        certificate: ""
+        key: ""
+
+api-cmdb:
+  persistence:
+    accessModes:
+      - ReadWriteOnce
+    size: 3Gi
+  imageCluster:
+    pullPolicy: Always
+  image:
+    pullPolicy: Always
+  imageBaseUrl: ""
+  log:
+    persistence:
+      accessModes:
+        - ReadWriteMany
+      size: 5Gi
+    generalLog:
+      enabled: true
+    slowQueryLog:
+      enabled: true
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  # securityContext for openshift
+  securityContextForSingleEnabled: false
+  securityContextForSingle:
+    runAsUser: 0
+
+api-server:
+  image:
+    pullPolicy: Always
+  imageBaseUrl: ""
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  log:
+    enabled: true
+    persistence:
+      accessModes:
+        - ReadWriteMany
+      size: 5Gi
+  env:
+    # 빌드 동시 실행 갯수
+    defaultParallelBuildCnt: 12
+    # AUDIT_LOG 보관 주기 (단위: month) (batch-server에 DELETE_COCKTAIL_AUDIT_LOG_SCHEDULE 환경변수가 설정되어 있지 않다면 동작하지 않음)
+    auditLogPeriodMonth: 12
+    # LOG_LEVEL
+    logLevel: INFO
+    # TERMINAL_LOG_LEVEL
+    TerminalLogLevel: INFO
+    # LOG_MAX_HISTORY
+    logMaxHistory: 7
+    # LOG_PRUDENT_ENABLED
+    logPrudentEnabled: false
+    # USER_SLEEP_ENABLED
+    userSleepEnabled: false
+    # EFK
+    kibanaUrl: "https://kibana/"
+
+  # securityContextEnabled: true
+  # securityContext:
+  #  runAsGroup: 1001
+  #  runAsUser: 1001
+  #  runAsNonRoot: true
+
+batch-server:
+  imageBaseUrl: ""
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+build-api:
+  imageBaseUrl: ""
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+build-queue:
+  imageBaseUrl: ""
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+cluster-api:
+  image:
+    pullPolicy: Always
+  imageBaseUrl: ""
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+cluster-health-checker:
+  imageBaseUrl: ""
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+dashboard:
+  image:
+    pullPolicy: Always
+  imageBaseUrl: ""
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+dashboard-proxy:
+  image:
+    pullPolicy: Always
+  imageBaseUrl: ""
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+dashboard-queue:
+  imageBaseUrl: ""
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+dashboard-session:
+  imageBaseUrl: ""
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+dashboard-watcher:
+  imageBaseUrl: ""
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+monitoring:
+  monitoring:
+    kafka:
+      enabled: true
+      tls:
+        enabled: true
+        root_crt_base64_encoded: 
+        client_crt_base64_encoded: 
+        client_key_base64_encoded: 
+      secretName: kafka-client
+    monitoringDb:
+      logging:
+        persistence:
+          size: 5Gi
+      persistence:
+        size: 5Gi
+  imageBaseUrl: ""
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+
+monitoring-proxy:
+  imageBaseUrl: ""
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+package:
+  imageBaseUrl: ""
+  nodeSelector: {}
+  tolerations: []
+  #- key: "node-type"
+  #  operator: "Equal"
+  #  value: "mgmt"
+  #  effect: "NoSchedule"
+  affinity: {}
