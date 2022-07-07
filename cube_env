@@ -18,8 +18,8 @@ IF_NAME="enp0s3"
 IF_IPADDRESS=$(ip addr show dev ${IF_NAME} scope global |grep inet|awk '{print $2}'|cut -d'/' -f1)
 
 # Name is in /etc/hosts is set.
-REPOSITORY_HOSTNAME="Repo" 
-HARBOR_HOSTNAME="harbor"
+REPOSITORY_HOSTNAME="repo" 
+HARBOR_HOSTNAME="repo"
 REPO_PORT="3777"
 CUBE_HARBOR_VERSION="1.10.6"
 
