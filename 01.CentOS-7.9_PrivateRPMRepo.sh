@@ -15,7 +15,7 @@ fi
 
 RepositoryName="CentOS-7.9_RPMRepo"
 BaseRepositoryDirectory="/PrivateRepo"
-CreateRepoPKGDirectory="${RepositoryDirectory}/00_createrepo"
+CreateRepoPKGDirectory="${RepositoryDirectory}/79rpm/00_createrepo"
 
 OS_TYPE=`grep ^NAME /etc/os-release | grep -oP '"\K[^"]+' | awk '{print $1}' | tr '[:upper:]' '[:lower:]'`
 OS_VERSION=`cat /etc/centos-release | awk {'print $4'} | awk -F "." {'print $1 "." $2'}`
@@ -48,9 +48,9 @@ echo "===> 2. tar file extrect in ${BaseRepositoryDirectory}"
 echo "#######################################################################################################"
 sudo tar xzf ${RepositoryTarFileName} -C ${BaseRepositoryDirectory}
 if [ $? -eq 0 ]; then
-    sudo  mv  ${BaseRepositoryDirectory}/79Repo  ${BaseRepositoryDirectory}/${RepositoryName}
-    if [ ! -d ${BaseRepositoryDirectory}/${RepositoryName} ]; then
-        echo "---> change name failed for repository. check ${RepositoryName} directory name in ${BaseRepositoryDirectory}"
+    sudo  mv  ${BaseRepositoryDirectory}  ${BaseRepositoryDirectory}/${RepositoryName}/79rpm
+    if [ ! -d ${BaseRepositoryDirectory}/${RepositoryName}/79rpm ]; then
+        echo "---> change name failed for repository. check ${RepositoryName}/79rpm directory name in ${BaseRepositoryDirectory}"
         exit 1
     fi
 fi
