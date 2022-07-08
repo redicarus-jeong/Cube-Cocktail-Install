@@ -142,7 +142,7 @@ EOF
       DOWNLOAD_URL=http://${REPO_URL}/helm
       sudo mkdir -p ${CUBE_TMP}/cube/binary/
       sudo wget ${DOWNLOAD_URL}/helm -P ${CUBE_TMP}/cube/binary/
-      exit 1
+  
       ### runtime
       echo "### Container Runtime install ###"
       sudo yum install -y containerd.io
