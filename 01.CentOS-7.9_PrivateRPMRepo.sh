@@ -78,8 +78,24 @@ if [ "${SeInFileMode}" = "enforcing" ]; then
     sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 fi
 
-### 5. Create Private RPM PKG Repository
-echo "===> 5. Create local Private repository"
+
+### 5. binary , etcd , helm directory link
+echo "===> 5. binary , etcd , helm directory link"
+echo "#######################################################################################################"
+if [ -d ${BaseRepositoryDirectory}/${RepositoryName}/79rpm/binary ]; then
+  sudo cd ${BaseRepositoryDirectory}/${RepositoryName}
+  sudo ln -s ${BaseRepositoryDirectory}/${RepositoryName}/79rpm/binary  ./binary
+  sudo ln -s ${BaseRepositoryDirectory}/${RepositoryName}/79rpm/binary  ./helm
+  sudo ln -s ${BaseRepositoryDirectory}/${RepositoryName}/79rpm/binary  ./sshpass
+fi
+if [ -d ${BaseRepositoryDirectory}/${RepositoryName}/79rpm/etcd ]; then
+  sudo cd ${BaseRepositoryDirectory}/${RepositoryName}
+  sudo ln -s ${BaseRepositoryDirectory}/${RepositoryName}/79rpm/etcd  ./etcd
+fi
+
+
+### 6. Create Private RPM PKG Repository
+echo "===> 6. Create local Private repository"
 echo "#######################################################################################################"
 sudo mv /etc/yum.repos.d /etc/yum.repos.d.bak
 sudo mkdir -p /etc/yum.repos.d
@@ -102,8 +118,8 @@ sudo yum clean all
 sudo createrepo ${BaseRepositoryDirectory}/${RepositoryName}
 sudo yum repolist
 
-### 6. nginx install & setup
-echo "===> 6. nginx install and setup"
+### 7. nginx install & setup
+echo "===> 7. nginx install and setup"
 echo "#######################################################################################################"
 sudo yum remove nginx -y
 sudo rm -rf /etc/nginx/nginx.conf.rpmsave
@@ -115,6 +131,7 @@ sudo sed -i 's|root         /usr/share/nginx/html|root         '${BaseRepository
 sudo systemctl restart nginx
 sudo systemctl enable nginx
 sudo systemctl status nginx
+
 
 echo "===> script end"
 echo "#######################################################################################################"
