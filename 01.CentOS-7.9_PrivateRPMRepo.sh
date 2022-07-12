@@ -13,7 +13,7 @@ if [ ! -f $RepositoryTarFileName ]; then
     exit 1
 fi
 
-RepositoryName="CentOS-7.9_RPMRepo"
+RepositoryName="79rpm"
 BaseRepositoryDirectory="/PrivateRepo"
 CreateRepoPKGDirectory="${RepositoryDirectory}/79rpm/00_createrepo"
 
@@ -47,13 +47,13 @@ fi
 echo "===> 2. tar file extrect in ${BaseRepositoryDirectory}"
 echo "#######################################################################################################"
 sudo tar xzf ${RepositoryTarFileName} -C ${BaseRepositoryDirectory}
-if [ $? -eq 0 ]; then
-    sudo  mv  ${BaseRepositoryDirectory}  ${BaseRepositoryDirectory}/${RepositoryName}/79rpm
-    if [ ! -d ${BaseRepositoryDirectory}/${RepositoryName}/79rpm ]; then
-        echo "---> change name failed for repository. check ${RepositoryName}/79rpm directory name in ${BaseRepositoryDirectory}"
-        exit 1
-    fi
-fi
+#if [ $? -eq 0 ]; then
+#    sudo  mv  ${BaseRepositoryDirectory}  ${BaseRepositoryDirectory}/${RepositoryName}/79rpm
+#    if [ ! -d ${BaseRepositoryDirectory}/${RepositoryName}/79rpm ]; then
+#        echo "---> change name failed for repository. check ${RepositoryName}/79rpm directory name in ${BaseRepositoryDirectory}"
+#        exit 1
+#    fi
+#fi
 
 ### 3. Firewalld disable
 echo "===> 3. firewalld disable"
@@ -82,15 +82,15 @@ fi
 ### 5. binary , etcd , helm directory link
 echo "===> 5. binary , etcd , helm directory link"
 echo "#######################################################################################################"
-if [ -d ${BaseRepositoryDirectory}/${RepositoryName}/79rpm/binary ]; then
-  sudo cd ${BaseRepositoryDirectory}/${RepositoryName}
-  sudo ln -s ${BaseRepositoryDirectory}/${RepositoryName}/79rpm/binary  ./binary
-  sudo ln -s ${BaseRepositoryDirectory}/${RepositoryName}/79rpm/binary  ./helm
-  sudo ln -s ${BaseRepositoryDirectory}/${RepositoryName}/79rpm/binary  ./sshpass
+if [ -d ${BaseRepositoryDirectory}/${RepositoryName}/binary ]; then
+  sudo cd ${BaseRepositoryDirectory}
+  sudo ln -s ${BaseRepositoryDirectory}/${RepositoryName}/binary  ./binary
+  sudo ln -s ${BaseRepositoryDirectory}/${RepositoryName}/binary  ./helm
+  sudo ln -s ${BaseRepositoryDirectory}/${RepositoryName}/binary  ./sshpass
 fi
-if [ -d ${BaseRepositoryDirectory}/${RepositoryName}/79rpm/etcd ]; then
-  sudo cd ${BaseRepositoryDirectory}/${RepositoryName}
-  sudo ln -s ${BaseRepositoryDirectory}/${RepositoryName}/79rpm/etcd  ./etcd
+if [ -d ${BaseRepositoryDirectory}/${RepositoryName}/etcd ]; then
+  sudo cd ${BaseRepositoryDirectory}
+  sudo ln -s ${BaseRepositoryDirectory}/${RepositoryName}/etcd  ./etcd
 fi
 
 
